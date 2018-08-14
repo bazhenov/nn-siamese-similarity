@@ -1,0 +1,18 @@
+version: '2'
+services:
+  notebook:
+    network_mode: bridge
+    ports:
+      - "1500:8888"
+    image: jupyter/tensorflow-notebook
+    command: ['start-notebook.sh', '--NotebookApp.token=""', '--NotebookApp.notebook_dir=/home/jovyan/work']
+    volumes:
+      - ./:/home/jovyan/work
+  tensorboard:
+    network_mode: bridge
+    ports:
+      - "1501:6006"
+    image: gcr.io/tensorflow/tensorflow
+    command: ['tensorboard', '--logdir=/model']
+    volumes:
+      - ./model:/model
