@@ -1,13 +1,16 @@
-version: '2'
+version: '2.3'
 services:
   notebook:
     network_mode: bridge
+    environment:
+      NVIDIA_VISIBLE_DEVICES: 0
+    runtime: nvidia
     ports:
       - "1500:8888"
-    image: jupyter/tensorflow-notebook
-    command: ['start-notebook.sh', '--NotebookApp.token=""', '--NotebookApp.notebook_dir=/home/jovyan/work']
+    image: tensorflow/tensorflow:latest-gpu-py3
+    command: ['jupyter', 'notebook', '--allow-root', '--NotebookApp.token=""', '--NotebookApp.notebook_dir=/work']
     volumes:
-      - ./:/home/jovyan/work
+      - ./:/work
   tensorboard:
     network_mode: bridge
     ports:
